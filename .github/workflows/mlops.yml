@@ -5,7 +5,7 @@ name: MLOps Pipeline - Churn Predictor
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, lab/14.1]
     paths:
       - 'src/**'
       - 'app/**'
