@@ -53,7 +53,7 @@ uvicorn app.main:app --port 8000      # http://localhost:8000/docs
 ├── app/main.py                     # API FastAPI: /predict, /predict/batch, /health
 ├── src/
 │   ├── data_prep.py                # limpieza, encoding, escalado y split
-│   ├── train.py                    # 3 modelos con MLflow tracking
+│   ├── train.py                    # 4 modelos con MLflow tracking
 │   └── evaluate_and_register.py    # registro en MLflow Model Registry
 ├── tests/                          # tests de la API con el modelo mockeado
 ├── data/
@@ -63,6 +63,22 @@ uvicorn app.main:app --port 8000      # http://localhost:8000/docs
 ├── Dockerfile
 └── requirements.txt
 ```
+
+### Comparación de modelos
+
+La selección se realiza por la media de F1 en validación cruzada estratificada
+(5 folds) sobre `data/train.csv`. En la última ejecución se obtuvieron estos
+resultados:
+
+| Modelo | F1 CV (media ± desviación) | ROC-AUC CV |
+|---|---:|---:|
+| Logistic Regression | 0.6666 ± 0.0454 | 0.7315 |
+| Random Forest | 0.6900 ± 0.0426 | 0.7326 |
+| XGBoost | 0.6829 ± 0.0656 | 0.7100 |
+| Gradient Boosting | 0.6476 ± 0.0761 | 0.6858 |
+
+`random_forest` continúa siendo el modelo elegido por `cv_f1_mean`
+(0.6900); agregar `GradientBoostingClassifier` no cambia la selección.
 
 ## Dataset
 
